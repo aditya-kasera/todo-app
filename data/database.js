@@ -8,3 +8,4 @@ export const connectDB = () => {
     .catch((e) => console.log(e));
 
 }
+

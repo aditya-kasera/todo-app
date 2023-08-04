@@ -23,8 +23,8 @@ app.use(cors({
     origin: [process.env.FRONTEND_URL],
     methods: ["GET", "POST", "PUT", "DELETE"],
     credentials: true,
-    // sameSite: process.env === "DEVELOPMENT" ? "lax" : "none",
-    // secure: process.env === "DEVELOPMENT" ? false : true ,
+    // sameSite: process.env === "Development" ? "lax" : "none",
+    // secure: process.env === "Development" ? false : true ,
 }));
 
 app.use("/api/v1/users", userRouter); //custom URL
