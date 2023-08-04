@@ -1,5 +1,5 @@
 import {app} from "./app.js";
-import {connectDB} from "../node-api/data/database.js";
+import {connectDB} from "./data/database.js";
 
 connectDB();
 
