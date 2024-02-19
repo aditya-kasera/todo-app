@@ -12,7 +12,7 @@ router.post("/new", isAuthenticated, newTask );
 
 router.get("/my", isAuthenticated, getAllTasks );
 getAllTasks
-router.route(":id")
+router.route("/:id")
     .put(isAuthenticated, updateTask)
     .delete(isAuthenticated, deleteTask);
 export default router;

@@ -24,6 +24,21 @@ export const newTask = async (req ,res, next) => {
     }
 }
 
+// export const getMyTask = async (req, res, next) => {
+//     try {
+//       const userid = req.user._id;
+  
+//       const tasks = await Task.find({ user: userid });
+  
+//       res.status(200).json({
+//         success: true,
+//         tasks,
+//       });
+//     } catch (error) {
+//       next(error);
+//     }
+//   };
+
 export const getAllTasks = async (req ,res, next) => {
 
     try {
@@ -65,9 +80,9 @@ export const deleteTask = async (req ,res, next) => {
     
         await task.deleteOne();
     
-        res.status(201).json({
-            success: true,
-            message: "Task Deleted."
+        res.status(200).json({
+            message: "Task Deleted.",
+            success: true
         })
     } catch (error) {
         next(error)

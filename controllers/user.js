@@ -4,8 +4,7 @@ import {sendCookie} from "../utils/features.js"
 import ErrorHandler from '../middlewares/error.js';
 
 
-
-export const getAllUsers = async (req, res) => {
+export const getAllUsers = async (req, res, next) => {
     try {
         //returns promise
         const users = await User.find({});
@@ -23,10 +22,10 @@ export const login = async (req, res, next) => {
         const {email, password} = req.body;
 
         let user = await User.findOne({email}).select("+password");
-        if(!user) return next(new ErrorHandler("Invalid User",404));
+        if(!user) return next(new ErrorHandler("Invalid User",400));
 
         const isMatch = await bcrypt.compare(password, user.password)
-        if(!isMatch) return next(new ErrorHandler("Invalid Email or Password",404));
+        if(!isMatch) return next(new ErrorHandler("Invalid Email or Password",400));
 
         sendCookie(user, res, `Welcome ${user.name}.` , 200);
     } catch (error) {
@@ -34,13 +33,13 @@ export const login = async (req, res, next) => {
     }
 }
 
-export const register = async (req, res) => {
+export const register = async (req, res, next) => {
     try {
         const {name, email, password} = req.body;
 
         let user = await User.findOne({email});
         
-        if(user) return next(new ErrorHandler("User Already Exit",404));
+        if(user) return next(new ErrorHandler("User Already Exit",400));
         const hashedPassword = await bcrypt.hash(password,10);
         user = await User.create({
             name,
@@ -56,18 +55,13 @@ export const register = async (req, res) => {
 
 
 
-export const getMyProfile = async (req, res) => {
+export const getMyProfile = (req, res) => {
 
-    try {
-            // const {id} = req.params;
-    
+    // const {id} = req.params;
     res.status(200).json({
         success: true,
         user: req.user,
     }); 
-    } catch (error) {
-        next(error)
-    }
 } 
 
 export const logout = (req, res) => {
@@ -75,8 +69,8 @@ export const logout = (req, res) => {
     res.status(200).cookie(
         "token", "", {
             expires: new Date(Date.now()),
-            sameSite: process.env === "Development" ? "lax" : "none",
-            secure: process.env === "Development" ? false : true ,
+            sameSite: process.NODE_ENV === "Development" ? "lax" : "none",
+            secure: process.NODE_ENV === "Development" ? false : true ,
         }
     ).json({
         success: true,

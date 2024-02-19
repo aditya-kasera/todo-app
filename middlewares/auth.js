@@ -2,7 +2,7 @@ import {User} from '../models/user.js'
 import jwt from 'jsonwebtoken'
 
 export const isAuthenticated = async (req, res, next) => {
-    try {
+    try { //not in video
         const {token} = req.cookies;
 
         if(!token) {
